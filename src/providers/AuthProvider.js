@@ -4,7 +4,7 @@ const initialState = {
   user: null,
   login: () => {},
   logout: () => {},
-  loading: ture,
+  loading: true,
 };
 export const AuthContext = createContext(initialState);
 
