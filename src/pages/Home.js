@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import styles from '../styles/home.module.css';
+import { Comment } from '../components';
 
 const Home = ({ posts }) => {
+  console.log(posts);
   return (
     <div className={styles.postList}>
       {posts.map((post) => (
@@ -38,14 +40,9 @@ const Home = ({ posts }) => {
               <input placeholder="Start typing a comment" />
             </div>
             <div className={styles.postCommentsList}>
-              <div className={styles.postCommnetsItem}>
-                <div className={styles.postCommentHeader}>
-                  <span className={styles.postCommentAuthor}>Bill</span>
-                  <span className={styles.postCommentTime}>a minute ago</span>
-                  <span className={styles.postCommentLikes}>22</span>
-                </div>
-                <div className={styles.postCommentContent}>Random comment</div>
-              </div>
+              {post.comments.map((comment) => {
+                <Comment comment={comment} />;
+              })}
             </div>
           </div>
         </div>
