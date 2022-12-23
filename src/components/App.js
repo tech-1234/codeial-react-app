@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Home, Login, Signup } from '../pages';
+import { Home, Login, Signup, Settings } from '../pages';
 import { Loader, Navbar } from './';
 import { useAuth } from '../hooks';
 
@@ -25,6 +25,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           {/* <Route path="/about" element={<About />} /> */}
           <Route path="/register" element={<Signup />} />
+          <Route path="/settings" element={<Settings />} />
           {/* <Route path="/user/:userId" element={<UserInfo />} /> */}
         </Routes>
       </Router>
