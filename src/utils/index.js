@@ -20,7 +20,7 @@ export const removeItemFromLocalStorage = (key) => {
     return console.error('can not get the value from LS');
   }
 
-  return localStorage.removeItem(key);
+  localStorage.removeItem(key);
 };
 /*{username: 'aakash', password: '123123'}*/
 export const getFormBody = (params) => {
