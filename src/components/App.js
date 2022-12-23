@@ -5,7 +5,7 @@ import {
   Navigate,
   Outlet,
 } from 'react-router-dom';
-import { Home, Login, Signup, Settings } from '../pages';
+import { Home, Login, Signup, Settings, UserProfile } from '../pages';
 import { Loader, Navbar } from './';
 import { useAuth } from '../hooks';
 
@@ -29,6 +29,9 @@ function App() {
           <Route path="/register" element={<Signup />} />
           <Route element={<PrivateRoute />}>
             <Route element={<Settings />} path="/settings" />
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route element={<UserProfile />} path="/user/:userId" />
           </Route>
         </Routes>
       </Router>
