@@ -1,15 +1,18 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from 'react-router-dom';
 import { Home, Login, Signup, Settings } from '../pages';
 import { Loader, Navbar } from './';
 import { useAuth } from '../hooks';
 
-// const About = () => {
-//   return <h1>About</h1>;
-// };
-
-// const UserInfo = () => {
-//   return <h1>UserInfo</h1>;
-// };
+const PrivateRoute = () => {
+  const auth = useAuth();
+  return auth.user ? <Outlet /> : <Navigate to="/login" />;
+};
 
 function App() {
   const auth = useAuth();
@@ -23,10 +26,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home posts={[]} />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/about" element={<About />} /> */}
           <Route path="/register" element={<Signup />} />
-          <Route path="/settings" element={<Settings />} />
-          {/* <Route path="/user/:userId" element={<UserInfo />} /> */}
+          <Route element={<PrivateRoute />}>
+            <Route element={<Settings />} path="/settings" />
+          </Route>
         </Routes>
       </Router>
     </div>
