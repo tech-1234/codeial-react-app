@@ -1,5 +1,6 @@
 import { useState } from 'react';
 // import { useHistory, Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
@@ -64,9 +65,9 @@ const Signup = () => {
     setSigningUp(false);
   };
 
-  // if (auth.user) {
-  //   return navigate('/');
-  // }
+  if (auth.user) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <form className={styles.loginForm} onSubmit={handleFormSubmit}>
