@@ -1,9 +1,8 @@
+import { useLocation } from 'react-router-dom';
 import styles from '../styles/settings.module.css';
-import { useState } from 'react';
-import { useAuth } from '../hooks';
-import { useToasts } from 'react-toast-notifications';
 const UserProfile = () => {
-  const user = {};
+  const { state } = useLocation();
+  console.log(state);
   return (
     <div className={styles.settings}>
       <div className={styles.imgContainer}>
@@ -14,11 +13,11 @@ const UserProfile = () => {
       </div>
       <div className={styles.field}>
         <div className={styles.fieldLabel}>Email</div>
-        <div className={styles.fieldValue}>{user?.email}</div>
+        <div className={styles.fieldValue}>{state.user.email}</div>
       </div>
       <div className={styles.field}>
         <div className={styles.fieldLabel}>Name</div>
-        <div className={styles.fieldValue}>{user?.name}</div>
+        <div className={styles.fieldValue}>{state.user.name}</div>
       </div>
 
       <div className={styles.btnGrp}>
