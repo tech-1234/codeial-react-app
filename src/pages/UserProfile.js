@@ -3,17 +3,16 @@ import { useState, useEffect } from 'react';
 import { Loader } from '../components';
 import { useToasts } from 'react-toast-notifications';
 import styles from '../styles/settings.module.css';
-import { fetchUserProfile } from '../api/index';
+import { fetchUserProfile, addFriend, removeFriend } from '../api/index';
 import { useAuth } from '../hooks';
 const UserProfile = () => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+  const [requestInProgress, setRequestInProgress] = useState(false);
   const { userId } = useParams();
-  // console.log('userId', userId);
   const { addToast } = useToasts();
   const navigate = useNavigate();
   const auth = useAuth();
-  console.log(auth);
   useEffect(() => {
     const getUser = async () => {
       const response = await fetchUserProfile(userId);
@@ -33,15 +32,48 @@ const UserProfile = () => {
     return <Loader />;
   }
   const checkIfUserIsAFriend = () => {
-    const friends = auth.user.friendships;
-    console.log(friends);
+    const friends = auth.user.friends;
     const friendIds = friends.map((friend) => friend.to_user._id);
     const index = friendIds.indexOf(userId);
-    console.log(index);
     if (index !== -1) {
       return true;
     }
     return false;
+  };
+
+  const handleRemoveFriendClick = async () => {
+    setRequestInProgress(true);
+    const response = await removeFriend(userId);
+    if (response.success) {
+      const friendship = auth.user.friends.filter(
+        (friend) => friend.to_user._id === userId
+      );
+      auth.updateUserFriends(false, friendship[0]);
+      addToast('Friend removed successfully', {
+        appearance: 'success',
+      });
+    } else {
+      addToast(response.message, {
+        appearance: 'error',
+      });
+    }
+    setRequestInProgress(false);
+  };
+  const handleAddFriendClick = async () => {
+    setRequestInProgress(true);
+    const response = await addFriend(userId);
+    if (response.success) {
+      const { friendship } = response.data;
+      auth.updateUserFriends(true, friendship);
+      addToast('Friend added successfully', {
+        appearance: 'success',
+      });
+    } else {
+      addToast(response.message, {
+        appearance: 'error',
+      });
+    }
+    setRequestInProgress(false);
   };
 
   return (
@@ -63,9 +95,21 @@ const UserProfile = () => {
 
       <div className={styles.btnGrp}>
         {checkIfUserIsAFriend() ? (
-          <button className={`button ${styles.saveBtn}`}>Add friend</button>
+          <button
+            className={`button ${styles.saveBtn}`}
+            onClick={handleRemoveFriendClick}
+            disabled={requestInProgress}
+          >
+            {requestInProgress ? 'Removing friend..' : 'Remove friend'}
+          </button>
         ) : (
-          <button className={`button ${styles.saveBtn}`}>Remove friend</button>
+          <button
+            className={`button ${styles.saveBtn}`}
+            onClick={handleAddFriendClick}
+            disabled={requestInProgress}
+          >
+            {requestInProgress ? 'Adding friend..' : 'Add friend'}
+          </button>
         )}
       </div>
     </div>

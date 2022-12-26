@@ -12,7 +12,7 @@ const Login = () => {
   const { addToast } = useToasts();
   const auth = useAuth();
   const navigate = useNavigate();
-  // console.log(auth);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoggingIn(true);
