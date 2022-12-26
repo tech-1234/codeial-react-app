@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import styles from '../styles/home.module.css';
-import { Comment, Loader, FriendsList } from '../components';
+import { Comment, Loader, FriendsList, CreatePost } from '../components';
 import { getPosts } from '../api';
 import { useAuth } from '../hooks/index';
 
@@ -28,6 +28,7 @@ const Home = () => {
   return (
     <div className={styles.home}>
       <div className={styles.postsList}>
+        <CreatePost />
         {posts.map((post) => (
           <div className={styles.postWrapper} key={`post-${post._id}`}>
             <div className={styles.postHeader}>
