@@ -1,27 +1,13 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import styles from '../styles/home.module.css';
 import { Comment, Loader, FriendsList, CreatePost } from '../components';
-import { getPosts } from '../api';
-import { useAuth } from '../hooks/index';
+import { useAuth, usePosts } from '../hooks/index';
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState([]);
   const auth = useAuth();
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
-      if (response.success) {
-        setPosts(response.data.posts);
-      }
-      setLoading(false);
-    };
-
-    fetchPosts();
-  }, []);
-  if (loading) {
+  const posts = usePosts();
+  if (posts.loading) {
     return <Loader />;
   }
 
@@ -29,7 +15,7 @@ const Home = () => {
     <div className={styles.home}>
       <div className={styles.postsList}>
         <CreatePost />
-        {posts.map((post) => (
+        {posts.data.map((post) => (
           <div className={styles.postWrapper} key={`post-${post._id}`}>
             <div className={styles.postHeader}>
               <div className={styles.postAvatar}>
@@ -62,14 +48,14 @@ const Home = () => {
                     src="https://cdn-icons-png.flaticon.com/512/889/889140.png"
                     alt="likes-icon"
                   />
-                  <span>5</span>
+                  <span>{post.likes.length}</span>
                 </div>
                 <div className={styles.postCommentsIcon}>
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/2190/2190552.png"
                     alt="comments-icon"
                   />
-                  <span>2</span>
+                  <span>{post.comments.length}</span>
                 </div>
               </div>
               <div className={styles.postCommentBox}>
