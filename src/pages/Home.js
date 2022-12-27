@@ -1,8 +1,6 @@
-import { Link } from 'react-router-dom';
-// import PropTypes from 'prop-types';
 import styles from '../styles/home.module.css';
-import { Post, Comment, Loader, FriendsList, CreatePost } from '../components';
-import { useAuth, usePosts } from '../hooks/index';
+import { Post, Loader, FriendsList, CreatePost } from '../components';
+import { useAuth, usePosts } from '../hooks';
 
 const Home = () => {
   const auth = useAuth();
